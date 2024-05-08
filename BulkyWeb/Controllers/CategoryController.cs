@@ -25,7 +25,7 @@ namespace BulkyWeb.Controllers
 
 
 
-
+        // Create 
         public IActionResult Create()
         {
 
@@ -35,10 +35,10 @@ namespace BulkyWeb.Controllers
         [HttpPost]
         public IActionResult Create(Category obj)
         {
-            if( obj.Name != null && obj.Name == obj.DisplayOrder.ToString())
-            {
-                ModelState.AddModelError("name", "The DisplayOrder cannot exactly match the Name");
-            }
+            //if( obj.Name != null && obj.Name == obj.DisplayOrder.ToString())
+            //{
+            //    ModelState.AddModelError("name", "The DisplayOrder cannot exactly match the Name");
+            //}
 
 
             if(ModelState.IsValid)
@@ -53,6 +53,39 @@ namespace BulkyWeb.Controllers
         }
 
 
+
+
+
+        // Edit
+
+        public IActionResult Edit(int? id)
+        {
+            if (id == null || id == 0)
+                return NotFound();
+
+
+            Category? catobj = _db.Categories.FirstOrDefault(u => u.Id == id);
+            if (catobj == null)
+                return NotFound();
+
+            return View(catobj);
+        }
+
+
+
+        [HttpPost]
+        public IActionResult Edit(Category obj)
+        {
+
+            if (ModelState.IsValid)
+            {
+                _db.Update(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View();
+        }
 
 
 
