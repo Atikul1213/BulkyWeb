@@ -21,6 +21,35 @@ namespace BulkyWeb.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("BulkyWeb.Models.Book", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("catId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("catId");
+
+                    b.ToTable("Books");
+                });
+
             modelBuilder.Entity("BulkyWeb.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -35,7 +64,8 @@ namespace BulkyWeb.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -60,6 +90,17 @@ namespace BulkyWeb.Migrations
                             DisplayOrder = "3",
                             Name = "Mominul"
                         });
+                });
+
+            modelBuilder.Entity("BulkyWeb.Models.Book", b =>
+                {
+                    b.HasOne("BulkyWeb.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("catId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }

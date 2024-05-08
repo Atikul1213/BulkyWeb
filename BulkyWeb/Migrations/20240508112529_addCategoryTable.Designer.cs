@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BulkyWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240506142609_AddCategoryTable")]
-    partial class AddCategoryTable
+    [Migration("20240508112529_addCategoryTable")]
+    partial class addCategoryTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,11 +38,32 @@ namespace BulkyWeb.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DisplayOrder = "1",
+                            Name = "Atikul"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DisplayOrder = "2",
+                            Name = "Ismail"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DisplayOrder = "3",
+                            Name = "Mominul"
+                        });
                 });
 #pragma warning restore 612, 618
         }
