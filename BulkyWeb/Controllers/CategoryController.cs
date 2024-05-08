@@ -125,6 +125,30 @@ namespace BulkyWeb.Controllers
 
 
         //Details
+        public IActionResult Details(int ? id)
+        {
+            if (id == null || id == 0)
+                return NotFound();
+
+            Category? obj = _db.Categories.FirstOrDefault(u => u.Id == id);
+            if (obj == null)
+                return NotFound();
+
+            return View(obj);
+        }
+
+
+        [HttpPost, ActionName("DetailsPOST")]
+
+        public IActionResult DetailsPOST(int ? id)
+        {
+            Category? obj = _db.Categories.FirstOrDefault(u => u.Id == id);
+
+            if (obj == null)
+                return NotFound();
+
+            return RedirectToAction("Index");
+        }
 
 
 
